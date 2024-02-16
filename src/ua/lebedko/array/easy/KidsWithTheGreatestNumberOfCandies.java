@@ -1,6 +1,5 @@
 package ua.lebedko.array.easy;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,18 +45,30 @@ import java.util.List;
 public class KidsWithTheGreatestNumberOfCandies {
 
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
-        var result = new ArrayList<Boolean>();
-        var max = Arrays.stream(candies)
-                .max().getAsInt();
+        var result = new Boolean[candies.length];
+
+        int indexToProceedAfterRecalc;
+        int maxCandies = 0;
 
         for (int i = 0; i < candies.length; i++) {
-            var kidCandiesWithExtras = candies[i] + extraCandies;
-            result.add(kidCandiesWithExtras >= max);
+            var kidCandies = candies[i];
+            if (kidCandies > maxCandies) {
+                maxCandies = kidCandies;
+                result[i] = true;
+                indexToProceedAfterRecalc = i;
+
+                for (; i > 0; i--) {
+                    result[i - 1] = candies[i - 1] + extraCandies >= maxCandies;
+                }
+                i = indexToProceedAfterRecalc;
+            } else {
+                result[i] = candies[i] + extraCandies >= maxCandies;
+            }
         }
-        return result;
+        return Arrays.asList(result);
     }
 
     public static void main(String[] args) {
-        System.out.println(new KidsWithTheGreatestNumberOfCandies().kidsWithCandies(new int[]{12,1,12}, 1));
+        System.out.println(new KidsWithTheGreatestNumberOfCandies().kidsWithCandies(new int[]{2, 3, 5, 1, 3}, 3));
     }
 }
