@@ -40,7 +40,7 @@ public class ReverseVowelsOfString {
             var leftVowel = findNextForwardVowel(input, leftPointer, length);
             var rightVowel = findNextBackwardVowel(input, rightPointer);
 
-            if (leftVowel == -1 || rightVowel == -1 || leftVowel > rightVowel) {
+            if (leftVowel == -1 || rightVowel == -1 || leftVowel > rightVowel || leftVowel == rightVowel) {
                 break;
             }
 
