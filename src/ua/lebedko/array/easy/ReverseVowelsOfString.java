@@ -33,24 +33,45 @@ public class ReverseVowelsOfString {
         var input = s.toCharArray();
         var length = input.length;
 
-        Deque<Integer> vowelIndexes = new LinkedList<>();
-        for (int i = 0; i < length; i++) {
-            if (vowels.contains(input[i])) {
-                vowelIndexes.add(i);
+        int leftPointer = 0;
+        int rightPointer = length - 1;
+
+        do {
+            var leftVowel = findNextForwardVowel(input, leftPointer, length);
+            var rightVowel = findNextBackwardVowel(input, rightPointer);
+
+            if (leftVowel == -1 || rightVowel == -1 || leftVowel > rightVowel) {
+                break;
             }
-        }
 
-        while (vowelIndexes.size() > 1) {
-            var first = vowelIndexes.pollFirst();
-            var last = vowelIndexes.pollLast();
+            var tmp = input[leftVowel];
+            input[leftVowel] = input[rightVowel];
+            input[rightVowel] = tmp;
 
-            var tmp = input[first];
-            input[first] = input[last];
-            input[last] = tmp;
-        }
+            leftPointer = leftVowel + 1;
+            rightPointer = rightVowel - 1;
+
+        } while (leftPointer < rightPointer);
 
         return new String(input);
     }
+
+    private int findNextForwardVowel(char[] input, int start, int length) {
+        for (int i = start; i < length; i++) {
+            if (vowels.contains(input[i]))
+                return i;
+        }
+        return -1;
+    }
+
+    private int findNextBackwardVowel(char[] input, int start) {
+        for (int i = start; i > 0; i--) {
+            if (vowels.contains(input[i]))
+                return i;
+        }
+        return -1;
+    }
+
 
     public static void main(String[] args) {
         System.out.println(new ReverseVowelsOfString().reverseVowels("hello"));
