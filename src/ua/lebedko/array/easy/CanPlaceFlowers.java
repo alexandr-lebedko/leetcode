@@ -34,13 +34,19 @@ public class CanPlaceFlowers {
 
         var length = flowerbed.length;
         var placedFlowers = 0;
-        for (int i = 0; i < length; i++) {
+        int i = 0;
+
+        while (i < length && placedFlowers != n) {
             if (canFitFlower(flowerbed, i, length)) {
                 flowerbed[i] = 1;
                 placedFlowers++;
+
+                // skip one iteration
+                i += 2;
+            } else {
+                i++;
             }
         }
-
         return placedFlowers >= n;
     }
 
