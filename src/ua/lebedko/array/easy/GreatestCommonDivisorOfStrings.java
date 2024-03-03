@@ -1,7 +1,5 @@
 package ua.lebedko.array.easy;
 
-import java.util.Arrays;
-
 /**
  * For two strings s and t, we say "t divides s" if and only if s = t + ... + t (i.e., t is concatenated with itself one or more times).
  * <p>
@@ -31,52 +29,18 @@ import java.util.Arrays;
 public class GreatestCommonDivisorOfStrings {
 
     public String gcdOfStrings(String str1, String str2) {
-        char[] str1Chars = str1.toCharArray();
-        char[] str2Chars = str2.toCharArray();
-
-        int maxGcdLength = Math.min(str1Chars.length, str2Chars.length);
-        var greatestPrefix = getCommonPrefix(str1Chars, str2Chars, maxGcdLength);
-
-        return defineGcdOfStrings(str1Chars, str2Chars, greatestPrefix);
-    }
-
-    private String defineGcdOfStrings(char[] str1Chars, char[] str2Chars, char[] commonPrefix) {
-        if (commonPrefix.length == 0) {
+        if (!(str1 + str2).equals(str2 + str1)) {
             return "";
         }
 
-        if (canDivideCompletely(str1Chars, commonPrefix) && canDivideCompletely(str2Chars, commonPrefix)) {
-            return new String(commonPrefix);
-        }
+        int maxGcdLength = gcd(str1.length(), str2.length());
 
-        return defineGcdOfStrings(str1Chars, str2Chars, Arrays.copyOf(commonPrefix, commonPrefix.length - 1));
+        return str2.substring(0, maxGcdLength);
     }
 
-    private boolean canDivideCompletely(char[] strChars, char[] commonPrefix) {
-        var commonPrefixLength = commonPrefix.length;
-
-        if (strChars.length % commonPrefixLength != 0) {
-            return false;
-        }
-
-        for (int i = commonPrefix.length - 1; i < strChars.length; i++) {
-            if (strChars[i] != commonPrefix[i % commonPrefixLength]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private char[] getCommonPrefix(char[] str1Chars, char[] str2Chars, int cdLimit) {
-        int matchedChars = 0;
-        for (int i = 0; i < cdLimit; i++) {
-            if (str1Chars[i] == str2Chars[i]) {
-                matchedChars++;
-            } else {
-                break;
-            }
-        }
-        return Arrays.copyOfRange(str1Chars, 0, matchedChars);
+    private int gcd(int x, int y) {
+        if (y == 0) return x;
+        return gcd(y, x % y);
     }
 
     public static void main(String[] args) {
