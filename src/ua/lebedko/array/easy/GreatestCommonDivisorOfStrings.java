@@ -53,16 +53,18 @@ public class GreatestCommonDivisorOfStrings {
     }
 
     private boolean canDivideCompletely(char[] strChars, char[] commonPrefix) {
-        if (strChars.length % commonPrefix.length != 0) {
+        var commonPrefixLength = commonPrefix.length;
+
+        if (strChars.length % commonPrefixLength != 0) {
             return false;
         }
-        var numberOfPrefixes = strChars.length / commonPrefix.length;
-        var result = new String(strChars);
-        for (int i = 0; i < numberOfPrefixes; i++) {
-            result = result.replace(new String(commonPrefix), "");
-        }
 
-        return result.isEmpty();
+        for (int i = 0; i < strChars.length; i++) {
+            if (strChars[i] != commonPrefix[i % commonPrefixLength]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private char[] getCommonPrefix(char[] str1Chars, char[] str2Chars, int cdLimit) {
@@ -74,7 +76,7 @@ public class GreatestCommonDivisorOfStrings {
                 break;
             }
         }
-        return Arrays.copyOf(str1Chars, matchedChars);
+        return Arrays.copyOfRange(str1Chars, 0, matchedChars);
     }
 
     public static void main(String[] args) {
