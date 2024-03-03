@@ -59,7 +59,7 @@ public class GreatestCommonDivisorOfStrings {
             return false;
         }
 
-        for (int i = 0; i < strChars.length; i++) {
+        for (int i = commonPrefix.length - 1; i < strChars.length; i++) {
             if (strChars[i] != commonPrefix[i % commonPrefixLength]) {
                 return false;
             }
