@@ -35,16 +35,12 @@ public class GreatestCommonDivisorOfStrings {
         char[] str2Chars = str2.toCharArray();
 
         int maxGcdLength = Math.min(str1Chars.length, str2Chars.length);
+        var greatestPrefix = getCommonPrefix(str1Chars, str2Chars, maxGcdLength);
 
-        return defineGcdOfStrings(str1Chars, str2Chars, maxGcdLength);
+        return defineGcdOfStrings(str1Chars, str2Chars, greatestPrefix);
     }
 
-    private String defineGcdOfStrings(char[] str1Chars, char[] str2Chars, int maxPrefixLength) {
-        if(maxPrefixLength == 0) {
-            return "";
-        }
-
-        var commonPrefix = getCommonPrefix(str1Chars, str2Chars, maxPrefixLength);
+    private String defineGcdOfStrings(char[] str1Chars, char[] str2Chars, char[] commonPrefix) {
         if (commonPrefix.length == 0) {
             return "";
         }
@@ -53,16 +49,16 @@ public class GreatestCommonDivisorOfStrings {
             return new String(commonPrefix);
         }
 
-        return defineGcdOfStrings(str1Chars, str2Chars, commonPrefix.length - 1);
+        return defineGcdOfStrings(str1Chars, str2Chars, Arrays.copyOf(commonPrefix, commonPrefix.length - 1));
     }
 
-    private boolean canDivideCompletely(char[] str1Chars, char[] commonPrefix) {
-        if (str1Chars.length % commonPrefix.length != 0) {
+    private boolean canDivideCompletely(char[] strChars, char[] commonPrefix) {
+        if (strChars.length % commonPrefix.length != 0) {
             return false;
         }
-        var numberOfPrefixes = str1Chars.length / commonPrefix.length;
-        var result = new String(str1Chars);
-        for(int i = 0; i < numberOfPrefixes; i++) {
+        var numberOfPrefixes = strChars.length / commonPrefix.length;
+        var result = new String(strChars);
+        for (int i = 0; i < numberOfPrefixes; i++) {
             result = result.replace(new String(commonPrefix), "");
         }
 
@@ -82,9 +78,9 @@ public class GreatestCommonDivisorOfStrings {
     }
 
     public static void main(String[] args) {
-        System.out.println(new GreatestCommonDivisorOfStrings().gcdOfStrings("ABCABC", "ABC"));
-        System.out.println(new GreatestCommonDivisorOfStrings().gcdOfStrings("ABABAB", "ABAB"));
-        System.out.println(new GreatestCommonDivisorOfStrings().gcdOfStrings("LEET", "CODE"));
-        System.out.println(new GreatestCommonDivisorOfStrings().gcdOfStrings("ABCDEF", "ABC"));
+        System.out.println(".gcdOfStrings(ABCABC, ABC) :" + new GreatestCommonDivisorOfStrings().gcdOfStrings("ABCABC", "ABC").equals("ABC"));
+        System.out.println(".gcdOfStrings(ABABAB, ABAB) :" + new GreatestCommonDivisorOfStrings().gcdOfStrings("ABABAB", "ABAB").equals("AB"));
+        System.out.println(".gcdOfStrings(LEET, CODE) :" + new GreatestCommonDivisorOfStrings().gcdOfStrings("LEET", "CODE").isEmpty());
+        System.out.println(".gcdOfStrings(ABCDEF, ABC) :" + new GreatestCommonDivisorOfStrings().gcdOfStrings("ABCDEF", "ABC").isEmpty());
     }
 }
