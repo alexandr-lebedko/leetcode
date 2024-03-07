@@ -27,30 +27,29 @@ import java.util.stream.Collectors;
 public class IntersectionOfTwoArrays {
 
     public int[] intersection(int[] nums1, int[] nums2) {
-        var nums1Length = nums1.length;
-        var nums2Length = nums2.length;
-        int[][] arraySet = new int[1000][2];
+        int[] intersections = new int[1000];
+        int intersectedDigits = 0;
 
-        for (int i = 0; i < arraySet.length; i++) {
-            if (nums1Length > i) {
-                int value = nums1[i];
-                int[] ints = arraySet[value];
-                ints[0] = 1;
-            }
-            if (nums2Length > i) {
-                int value = nums2[i];
-                int[] ints = arraySet[value];
-                ints[1] = 1;
-            }
-        }
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int i = 0; i < arraySet.length; i++) {
-            int[] ints = arraySet[i];
-            if(ints[0] == 1 && ints[1] == 1)
-                result.add(i);
+        for (int number : nums1) {
+            intersections[number] = 1;
         }
 
-        return result.stream().mapToInt(Integer::intValue).toArray();
+        for (int number : nums2) {
+            int intersection = intersections[number];
+            if (intersection == 1) {
+                intersections[number] = 2;
+                intersectedDigits++;
+            }
+        }
+
+        int[] result = new int[intersectedDigits];
+        for (int i = 0, r = 0; i < intersections.length; i++) {
+            if (intersections[i] == 2) {
+                result[r] = i;
+                r++;
+            }
+        }
+        return result;
     }
 
 
