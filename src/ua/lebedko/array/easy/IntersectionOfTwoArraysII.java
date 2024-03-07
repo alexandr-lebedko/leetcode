@@ -1,0 +1,80 @@
+package ua.lebedko.array.easy;
+
+import java.util.Arrays;
+
+/**
+ * Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+ * <p>
+ * <p>
+ * <p>
+ * Example 1:
+ * <p>
+ * Input: nums1 = [1,2,2,1], nums2 = [2,2]
+ * Output: [2,2]
+ * Example 2:
+ * <p>
+ * Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+ * Output: [4,9]
+ * Explanation: [9,4] is also accepted.
+ * <p>
+ * <p>
+ * Constraints:
+ * <p>
+ * 1 <= nums1.length, nums2.length <= 1000
+ * 0 <= nums1[i], nums2[i] <= 1000
+ * <p>
+ * <p>
+ * Follow up:
+ * <p>
+ * What if the given array is already sorted? How would you optimize your algorithm?
+ * What if nums1's size is small compared to nums2's size? Which algorithm is better?
+ * What if elements of nums2 are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once?
+ */
+
+public class IntersectionOfTwoArraysII {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        var intersections = new int[1001][2];
+
+        for (int i : nums1) {
+            intersections[i][0] = ++intersections[i][0];
+        }
+        for (int i : nums2) {
+            intersections[i][1] = ++intersections[i][1];
+        }
+
+        var intersectionCounter = 0;
+        for (int i = 0; i < intersections.length; i++) {
+            int[] intersection = intersections[i];
+            var digitCountNums1 = intersection[0];
+            var digitCountNums2 = intersection[1];
+
+            if (digitCountNums1 > 0 && digitCountNums2 > 0) {
+                var intersectionNum = Math.min(digitCountNums1, digitCountNums2);
+                intersectionCounter += intersectionNum;
+            }
+        }
+
+        int[] result = new int[intersectionCounter];
+        int resultCounter = 0;
+
+        for (int i = 0; i < intersections.length; i++) {
+            int[] intersection = intersections[i];
+            var digitCountNums1 = intersection[0];
+            var digitCountNums2 = intersection[1];
+
+            if (digitCountNums1 > 0 && digitCountNums2 > 0) {
+                var intersectionNum = Math.min(digitCountNums1, digitCountNums2);
+                for (int j = 0; j < intersectionNum; j++) {
+                    result[resultCounter++] = i;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new IntersectionOfTwoArraysII().intersect(new int[]{1, 2, 2, 1}, new int[]{2, 2})));
+        System.out.println(Arrays.toString(new IntersectionOfTwoArraysII().intersect(new int[]{4, 9, 5}, new int[]{9, 4, 9, 8, 4})));
+    }
+}
