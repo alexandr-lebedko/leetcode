@@ -27,29 +27,32 @@ import java.util.stream.Collectors;
 public class IntersectionOfTwoArrays {
 
     public int[] intersection(int[] nums1, int[] nums2) {
-        var set1 = toArraySet(nums1);
-        var set2 = toArraySet(nums2);
+        var nums1Length = nums1.length;
+        var nums2Length = nums2.length;
+        int[][] arraySet = new int[1000][2];
 
-        ArrayList<Integer> integers = new ArrayList<>();
-        for (int i = 0; i < set1.length; i++) {
-            var set1Value = set1[i];
-            var set2Value = set2[i];
-
-            if (set1Value != 0 && set2Value != 0) {
-                integers.add(i);
+        for (int i = 0; i < arraySet.length; i++) {
+            if (nums1Length > i) {
+                int value = nums1[i];
+                int[] ints = arraySet[value];
+                ints[0] = 1;
             }
-
+            if (nums2Length > i) {
+                int value = nums2[i];
+                int[] ints = arraySet[value];
+                ints[1] = 1;
+            }
         }
-        return integers.stream().mapToInt(Integer::intValue).toArray();
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < arraySet.length; i++) {
+            int[] ints = arraySet[i];
+            if(ints[0] == 1 && ints[1] == 1)
+                result.add(i);
+        }
+
+        return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    private int[] toArraySet(int[] nums) {
-        int[] arraySet = new int[1000];
-        for (int num : nums) {
-            arraySet[num] = 1;
-        }
-        return arraySet;
-    }
 
     public static void main(String[] args) {
         System.out.println(Arrays.toString(new IntersectionOfTwoArrays().intersection(new int[]{1, 2, 2, 1}, new int[]{2, 2})));
