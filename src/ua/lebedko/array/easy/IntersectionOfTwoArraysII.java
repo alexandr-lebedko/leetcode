@@ -1,6 +1,8 @@
 package ua.lebedko.array.easy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
@@ -33,31 +35,25 @@ import java.util.Arrays;
 
 public class IntersectionOfTwoArraysII {
     public int[] intersect(int[] nums1, int[] nums2) {
-        var intersections = new int[1001][2];
-        var intersectionCounter = 0;
+        HashMap<Integer, Integer> numToCounter = new HashMap<>();
+        ArrayList<Integer> intersections = new ArrayList<>();
 
         for (int i : nums1) {
-            intersections[i][0] = ++intersections[i][0];
+            numToCounter.compute(i, (k, v) -> (v == null) ? 1 : ++v);
         }
+
         for (int i : nums2) {
-            intersections[i][0] = --intersections[i][0];
-            if (intersections[i][0] >= 0) {
-                intersectionCounter++;
-                intersections[i][1] = ++intersections[i][1];
+            Integer encounterCount = numToCounter.get(i);
+            if (encounterCount!= null && encounterCount > 0) {
+                numToCounter.put(i, --encounterCount);
+                intersections.add(i);
             }
         }
 
-        int[] result = new int[intersectionCounter];
-        int resultCounter = 0;
-
-        for (int i = 0; i < intersections.length; i++) {
-            int[] intersection = intersections[i];
-            var intersectedNumber = intersection[1];
-            for (int j = 0; j < intersectedNumber; j++) {
-                result[resultCounter++] = i;
-            }
+        int[] result = new int[intersections.size()];
+        for (int i = 0; i < intersections.size(); i++) {
+            result[i] = intersections.get(i);
         }
-
         return result;
     }
 
