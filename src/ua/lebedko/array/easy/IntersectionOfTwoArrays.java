@@ -27,21 +27,28 @@ import java.util.stream.Collectors;
 public class IntersectionOfTwoArrays {
 
     public int[] intersection(int[] nums1, int[] nums2) {
-        if (nums1.length > nums2.length) {
-            return getIntersection(Arrays.stream(nums1).boxed().collect(Collectors.toSet()), nums2);
-        } else {
-            return getIntersection(Arrays.stream(nums2).boxed().collect(Collectors.toSet()), nums1);
+        var set1 = toArraySet(nums1);
+        var set2 = toArraySet(nums2);
+
+        ArrayList<Integer> integers = new ArrayList<>();
+        for (int i = 0; i < set1.length; i++) {
+            var set1Value = set1[i];
+            var set2Value = set2[i];
+
+            if (set1Value != 0 && set2Value != 0) {
+                integers.add(i);
+            }
+
         }
+        return integers.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    private int[] getIntersection(Set<Integer> indexedNums, int[] nums) {
-        var result = new HashSet<Integer>();
+    private int[] toArraySet(int[] nums) {
+        int[] arraySet = new int[1000];
         for (int num : nums) {
-            if (indexedNums.contains(num)) {
-                result.add(num);
-            }
+            arraySet[num] = 1;
         }
-        return result.stream().mapToInt(Integer::intValue).toArray();
+        return arraySet;
     }
 
     public static void main(String[] args) {
