@@ -35,26 +35,32 @@ import java.util.HashMap;
 
 public class IntersectionOfTwoArraysII {
     public int[] intersect(int[] nums1, int[] nums2) {
-        HashMap<Integer, Integer> numToCounter = new HashMap<>();
-        ArrayList<Integer> intersections = new ArrayList<>();
+        int[] nums1Set = new int[1001];
+        int[] nums2Set = new int[1001];
 
-        for (int i : nums1) {
-            numToCounter.compute(i, (k, v) -> (v == null) ? 1 : ++v);
+        for (int i = 0; i < nums1.length; i++) {
+            var number = nums1[i];
+            nums1Set[number] = ++nums1Set[number];
+        }
+        for (int i = 0; i < nums2.length; i++) {
+            var number = nums2[i];
+            nums2Set[number] = ++nums2Set[number];
         }
 
-        for (int i : nums2) {
-            Integer encounterCount = numToCounter.get(i);
-            if (encounterCount!= null && encounterCount > 0) {
-                numToCounter.put(i, --encounterCount);
-                intersections.add(i);
+        ArrayList<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < 1001; i++) {
+            var nums1Count = nums1Set[i];
+            var nums2Count = nums2Set[i];
+
+            var intersectionsNum = Math.min(nums1Count, nums2Count);
+            if (intersectionsNum > 0) {
+                for (int k = 0; k < intersectionsNum; k++) {
+                    result.add(i);
+                }
             }
         }
-
-        int[] result = new int[intersections.size()];
-        for (int i = 0; i < intersections.size(); i++) {
-            result[i] = intersections.get(i);
-        }
-        return result;
+        return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public static void main(String[] args) {
