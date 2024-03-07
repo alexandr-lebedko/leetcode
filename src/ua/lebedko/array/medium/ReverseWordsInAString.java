@@ -1,10 +1,5 @@
 package ua.lebedko.array.medium;
 
-import java.util.Deque;
-import java.util.LinkedList;
-
-import static java.lang.StringTemplate.STR;
-
 /**
  * Given an input string s, reverse the order of the words.
  * <p>
