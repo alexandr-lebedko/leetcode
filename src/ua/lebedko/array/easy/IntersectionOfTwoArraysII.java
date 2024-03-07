@@ -34,23 +34,16 @@ import java.util.Arrays;
 public class IntersectionOfTwoArraysII {
     public int[] intersect(int[] nums1, int[] nums2) {
         var intersections = new int[1001][2];
+        var intersectionCounter = 0;
 
         for (int i : nums1) {
             intersections[i][0] = ++intersections[i][0];
         }
         for (int i : nums2) {
-            intersections[i][1] = ++intersections[i][1];
-        }
-
-        var intersectionCounter = 0;
-        for (int i = 0; i < intersections.length; i++) {
-            int[] intersection = intersections[i];
-            var digitCountNums1 = intersection[0];
-            var digitCountNums2 = intersection[1];
-
-            if (digitCountNums1 > 0 && digitCountNums2 > 0) {
-                var intersectionNum = Math.min(digitCountNums1, digitCountNums2);
-                intersectionCounter += intersectionNum;
+            intersections[i][0] = --intersections[i][0];
+            if (intersections[i][0] >= 0) {
+                intersectionCounter++;
+                intersections[i][1] = ++intersections[i][1];
             }
         }
 
@@ -59,14 +52,9 @@ public class IntersectionOfTwoArraysII {
 
         for (int i = 0; i < intersections.length; i++) {
             int[] intersection = intersections[i];
-            var digitCountNums1 = intersection[0];
-            var digitCountNums2 = intersection[1];
-
-            if (digitCountNums1 > 0 && digitCountNums2 > 0) {
-                var intersectionNum = Math.min(digitCountNums1, digitCountNums2);
-                for (int j = 0; j < intersectionNum; j++) {
-                    result[resultCounter++] = i;
-                }
+            var intersectedNumber = intersection[1];
+            for (int j = 0; j < intersectedNumber; j++) {
+                result[resultCounter++] = i;
             }
         }
 
