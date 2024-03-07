@@ -2,7 +2,6 @@ package ua.lebedko.array.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 /**
  * Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
@@ -34,6 +33,7 @@ import java.util.HashMap;
  */
 
 public class IntersectionOfTwoArraysII {
+
     public int[] intersect(int[] nums1, int[] nums2) {
         int[] nums1Set = new int[1001];
         int[] nums2Set = new int[1001];
@@ -60,7 +60,13 @@ public class IntersectionOfTwoArraysII {
                 }
             }
         }
-        return result.stream().mapToInt(Integer::intValue).toArray();
+        int[] resultInt = new int[result.size()];
+        int resultCount = 0;
+        for (Integer i : result) {
+            resultInt[resultCount++] = i;
+        }
+
+        return resultInt;
     }
 
     public static void main(String[] args) {
