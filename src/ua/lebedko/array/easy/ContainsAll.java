@@ -14,6 +14,7 @@ public class ContainsAll {
 
     public static void main(String[] args) {
         System.out.println(new ContainsAll().solution(new int[]{1, 2, 2, 3}, new int[]{1, 2}));
+        System.out.println(new ContainsAll().solution(new int[]{1, 2, 2, 3}, new int[]{1, 2, 1, 2}));
         System.out.println(new ContainsAll().solution(new int[]{1, 2, 3}, new int[]{2, 5}));
     }
 }
