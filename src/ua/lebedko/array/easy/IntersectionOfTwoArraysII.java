@@ -54,12 +54,12 @@ public class IntersectionOfTwoArraysII {
             var nums2Count = nums2Set[i];
 
             var intersectionsNum = Math.min(nums1Count, nums2Count);
-            if (intersectionsNum > 0) {
-                for (int k = 0; k < intersectionsNum; k++) {
-                    result.add(i);
-                }
+            while (intersectionsNum > 0) {
+                result.add(i);
+                intersectionsNum--;
             }
         }
+
         int[] resultInt = new int[result.size()];
         int resultCount = 0;
         for (Integer i : result) {
