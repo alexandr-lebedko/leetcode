@@ -35,15 +35,13 @@ public class ProductOfArrayExceptSelf {
 
     public int[] productExceptSelf(int[] nums) {
         var numberOfZeros = 0;
-        var zeroPosition = 0;
         var totalMultiplication = 1;
         for (int i = 0; i < nums.length; i++) {
             var value = nums[i];
             if (value == 0) {
                 numberOfZeros++;
-                zeroPosition = i;
                 if (numberOfZeros == 2) {
-                    return new int[nums.length];
+                    break;
                 }
             } else {
                 totalMultiplication = totalMultiplication * value;
@@ -51,13 +49,18 @@ public class ProductOfArrayExceptSelf {
         }
 
         int[] result = new int[nums.length];
-        if (numberOfZeros == 1) {
-            result[zeroPosition] = totalMultiplication;
+        if (numberOfZeros == 2) {
             return result;
         }
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = totalMultiplication / nums[i];
+            if (numberOfZeros == 1) {
+                if (nums[i] == 0) {
+                    result[i] = totalMultiplication;
+                }
+            } else {
+                result[i] = totalMultiplication / nums[i];
+            }
         }
         return result;
     }
