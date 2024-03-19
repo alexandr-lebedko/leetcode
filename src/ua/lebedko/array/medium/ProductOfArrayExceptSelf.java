@@ -38,26 +38,18 @@ public class ProductOfArrayExceptSelf {
         int[] left = new int[nums.length];
         int[] right = new int[nums.length];
 
-        left[0] = nums[0];
+        left[0] = 1;
         for (int i = 1; i < nums.length; i++) {
-            left[i] = left[i - 1] * nums[i];
-        }
-        right[nums.length - 1] = nums[nums.length - 1];
-        for (int i = nums.length - 2; i >= 0; i--) {
-            right[i] = right[i + 1] * nums[i];
+            left[i] = left[i - 1] * nums[i - 1];
         }
 
-        result[0] = right[1];
-        result[nums.length - 1] = left[nums.length - 2];
+        right[nums.length - 1] = 1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            right[i] = right[i + 1] * nums[i + 1];
+        }
 
         for (int i = 0; i < result.length - 1; i++) {
-            if (i == 0) {
-                result[i] = right[i + 1];
-            } else if (i == result.length - 1) {
-                result[i] = left[result.length - 2];
-            } else {
-                result[i] = left[i - 1] * right[i + 1];
-            }
+            result[i] = left[i] * right[i];
         }
 
         return result;
