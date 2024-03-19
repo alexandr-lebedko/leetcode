@@ -35,27 +35,25 @@ public class ProductOfArrayExceptSelf {
 
     public int[] productExceptSelf(int[] nums) {
         int[] result = new int[nums.length];
-        calculateHalf(nums, 0, nums.length / 2, nums.length / 2, nums.length, result);
-        calculateHalf(nums, nums.length / 2, nums.length, 0, nums.length / 2, result);
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
 
-        return result;
-    }
-
-    private int calculateProductOfRange(int[] nums, int start, int end) {
-        int result = 1;
-        for (int i = start; i < end; i++) {
-            result *= nums[i];
+        left[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            left[i] = left[i - 1] * nums[i];
         }
-        return result;
-    }
-
-    private int[] calculateHalf(int[] nums, int prefixStart, int prefixEnd, int halfStart, int halfEnd, int[] result) {
-        var prefix = calculateProductOfRange(nums, prefixStart, prefixEnd);
-        for (int i = halfStart; i < halfEnd; i++) {
-            var suffix = calculateProductOfRange(nums, i + 1, halfEnd);
-            result[i] = prefix * suffix;
-            prefix *= nums[i];
+        right[nums.length - 1] = nums[nums.length - 1];
+        for (int i = nums.length - 2; i >= 0; i--) {
+            right[i] = right[i + 1] * nums[i];
         }
+
+        result[0] = right[1];
+        result[nums.length -1] = left[nums.length -2];
+
+        for (int i = 1; i < result.length - 1; i++) {
+            result[i] = left[i - 1] * right[i + 1];
+        }
+
         return result;
     }
 
